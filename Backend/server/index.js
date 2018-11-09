@@ -1,20 +1,22 @@
 const express = require('express');
+const morgan = require('morgan');
 const cors = require('cors');
 const app = express();
 
 const { mongoose } = require('./database');
 
 // Settings
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3002);
 
 // Middlewares
-app.use(cors({origin: 'http://localhost:4200'}));
+app.use(morgan('dev'));
 app.use(express.json());
+app.use(cors({origin: 'http://localhost:8100'}));
 
 // Routes
-app.use('/api/employees', require('./routes/employee.routes'));
+app.use('/openbanking',require('./routes/atms.routes'));
 
-// starting the server
+// Starting the server
 app.listen(app.get('port'), () => {
-    console.log(`server on port ${app.get('port')}`);
+    console.log('server on port', app.get('port'));
 });
